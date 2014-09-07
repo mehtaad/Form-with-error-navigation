@@ -1,0 +1,96 @@
+/* Put your css in here */
+
+.pristine.true, .dirty.true, .invalid.true {
+  background: gray;
+}
+.valid.false {
+  background: red;
+}
+.valid.true {
+  background: green; 
+}
+.error {
+  color: red; 
+  
+}
+.errorborder {
+border: 1px solid red;
+}
+.submitted.false {
+  background: red;
+}
+.submitted.true {
+  background: green;
+}
+.imgstate {
+position:fixed; 
+right:5%;
+width:20px; 
+
+}
+.errorblocksetting  {
+position:fixed;
+display: block;
+left:20px;
+top:-50px;
+height:40px;
+width:95%;
+border: 1px solid black;
+background:#F58B8B;
+text-align:center;
+
+border-bottom-right-radius:10px;
+border-bottom-left-radius:10px;
+opacity:0;
+font-weight:bold;
+overflow:auto;
+box-shadow:5px 5px 10px rgba(0,0,0,.3)
+
+
+}
+.settopposition {
+top:0px;
+opacity:0.8;
+}
+	
+.slide-top {
+  -webkit-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -moz-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -ms-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -o-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* easeOutQuad */
+  
+  
+}
+.slide-top.ng-enter {
+  transform: translateY(60px);
+  -ms-transform: translateY(60px);
+  -webkit-transform: translateY(60px);
+  transition-duration: 0.5s;
+  -webkit-transition-duration: 0.5s;
+  opacity: 0;
+}
+/* line 117, ../sass/ng-animation.scss */
+.slide-top.ng-enter-active {
+  transform: translateY(0);
+  -ms-transform: translateY(0);
+  -webkit-transform: translateY(0);
+  opacity: .8;
+}
+/* line 122, ../sass/ng-animation.scss */
+.slide-top.ng-leave {
+  transform: translateY(0);
+  -ms-transform: translateY(0);
+  -webkit-transform: translateY(0);
+  transition-duration: 0.5s;
+  -webkit-transition-duration: 0.5s;
+  opacity: 0.8;
+}
+/* line 128, ../sass/ng-animation.scss */
+.slide-top.ng-leave-active {
+  transform: translateY(60px);
+  -ms-transform: translateY(60px);
+  -webkit-transform: translateY(60px);
+  opacity: 0;
+}

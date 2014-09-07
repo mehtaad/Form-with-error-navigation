@@ -1,0 +1,83 @@
+<!doctype html>
+<html ng-app="errormsg" >
+<head>
+  <meta charset="utf-8">
+  <title>errorMsg</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular-animate.js"></script>
+  <script src="app.js"></script>
+  <script src="errmsgdirective.js"></script>
+  
+  
+  </head>
+<body ng-controller="MainCtrl">
+  <h3>Demo Form</h3>
+  <form name="mainForm" valid-submit="sendForm()" novalidate>
+    <div> 
+      <label for="firstName">First Name</label>
+      <input id="firstName" name="firstName" type="text" ng-model="person.firstName" required/>
+      <span class="error" ng-show="mainForm.$submitted && mainForm.firstName.$error.required">required {{setFirstnameError()}}</span>
+    </div>
+    <div>
+      <label for="lastName">Last Name</label>
+      <input id="lastName" name="lastName" type="text" ng-model="person.lastName" required/>
+      <span class="error" ng-show="mainForm.$submitted && mainForm.lastName.$error.required">required</span>
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" ng-model="person.email" required/>
+      <span class="error" ng-show="mainForm.$submitted && mainForm.email.$error.required">required</span>
+      <span class="error" ng-show="mainForm.$submitted && mainForm.email.$error.email">invalid email</span>
+    </div>
+    <div>
+      <input type="checkbox" ng-model="agreedToTerms" 
+        name="agreedToTerms" id="agreedToTerms" required/>
+      <label for="agreedToTerms">I agree to the terms</label>
+      <span class="error" ng-show="mainForm.$submitted && mainForm.agreedToTerms.$error.required">You must agree to the terms</span>
+    </div>
+    <div>
+      <button ng-disabled="mainForm.$submitted && !mainForm.$valid" type="submit">Submit!</button>
+	  <button ng-click="removebar($event)">Remove!</button>
+    </div>
+  </form>
+  <h3>Viewing the status</h3>
+  <p>everything below this point is just to demonstrate what's
+  going on in the $scope with validation</p>
+  <table>
+    <tr>
+      <th></th>
+      <th>$pristine</th>
+      <th>$dirty</th>
+      <th>$valid</th>
+      <th>$invalid</th>
+      <th>$submitted</th>
+    </tr>
+    <tr ng-repeat="field in ['firstName', 'lastName', 'email', 'agreedToTerms']">
+      <td>{{field}}</td>
+      <td ng-class="getClass(mainForm[field].$pristine)" class="pristine"></td>
+      <td ng-class="getClass(mainForm[field].$dirty)" class="dirty"></td>
+      <td ng-class="getClass(mainForm[field].$valid)" class="valid"></td>
+      <td ng-class="getClass(mainForm[field].$invalid)" class="invalid"></td>
+      <td class="dirty"></td>
+    </tr>
+    <tr>
+      <td>mainForm</td>
+      <td ng-class="getClass(mainForm.$pristine)" class="pristine"></td>
+      <td ng-class="getClass(mainForm.$dirty)" class="dirty"></td>
+      <td ng-class="getClass(mainForm.$valid)" class="valid"></td>
+      <td ng-class="getClass(mainForm.$invalid)" class="invalid"></td>      
+      <td ng-class="getClass(mainForm.$submitted)" class="submitted"></td>      
+    </tr>
+  </table>
+  <!--<div   class="errorblocksetting slide-top" ng-class="{settopposition:settop}">	
+    <img src="cross.png" style = "float:right" ng-click="removeErrorbar($event)">
+	There are 5 errors. 
+	<div ng-repeat='item in ["1","2","3","4","5"]'>
+		{{item}} Hello can you see me sliding 
+	</div>
+  </div>-->
+  
+  <div errormsgdir>  </div>
+</body>
+</html>
