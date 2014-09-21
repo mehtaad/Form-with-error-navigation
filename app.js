@@ -1,4 +1,4 @@
-var app = angular.module('errormsg', []);
+var app = angular.module('errormsg', ['ui.bootstrap']);
 
  var ValidSubmit = ['$parse', function ($parse) {
         //return {
@@ -38,6 +38,58 @@ var app = angular.module('errormsg', []);
 							else if(form.$submitted && form.email.$error.email){
 								scope.errorlist.push("Email: Invalid email address, please enter valid email address"); 
 							}
+							if(form.$submitted && form.dt.$error.required && !form.dt.$error.date){
+								scope.errorlist.push("date: Required, can not be blank");
+							}
+							else if(form.$submitted && form.dt.$error.date){
+								scope.errorlist.push("date: Invalid date address, please enter valid date address"); 
+							}
+							else if(scope.dt>=scope.minDate && scope.dt<scope.maxDate){
+								//its a valid date so now check for valid date entry via keyboard input
+								
+								var isValidDate=true;
+								var str = form.dt.$viewValue;
+								if(str.length <=10){ //its a keyboard entry								
+									var matches = str.match(/(\d{1,2})[- \/](\d{1,2})[- \/](\d{4})/);
+									if (!matches) {
+									isValidDate=false
+									}
+									else{
+										// convert pieces to numbers
+										// make a date object out of it
+										var month = parseInt(matches[1], 10);
+										var day = parseInt(matches[2], 10);
+										var year = parseInt(matches[3], 10);
+										var date = new Date(year, month - 1, day);
+										if (!date || !date.getTime()) {
+											isValidDate=false
+										}
+										else {
+											// make sure we didn't have any illegal 
+											// month or day values that the date constructor
+											// coerced into valid values
+											if (date.getMonth() + 1 != month ||
+												date.getFullYear() != year ||
+												date.getDate() != day) {
+													{isValidDate=false}
+												}
+										}
+									}
+									
+								}
+								if(!isValidDate){
+									  form.dt.$valid=false;  form.dt.$error.date=true;
+									  scope.errorlist.push("date: Invalid date address, please enter valid date address"); 
+								}
+								else
+								 scope.errorlist.push("date: Its Valid Date"); 
+							}
+							else {
+								form.dt.$valid=false;  form.dt.$error.date=true;	
+								scope.errorlist.push("date: Invalid date address, please enter valid date address"); 
+							}
+								
+							
 							
 							if(form.$submitted && form.agreedToTerms.$error.required){
 								scope.errorlist.push("Agreement To Terms: please check agreed to terms check box");
@@ -98,6 +150,43 @@ $scope.settop=false;
 	
 	
   };
+  
+  $scope.today = function() {
+    $scope.dt = null;
+  };
+  $scope.today();
+
+  $scope.clear = function () {
+    $scope.dt = null;
+  };
+
+  // Disable weekend selection
+  $scope.disabled = function(date, mode) {
+    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+  };
+
+  $scope.toggleMin = function() {
+    $scope.minDate = $scope.minDate ? null : new Date();
+	$scope.maxDate = new Date(); 
+	$scope.maxDate.setYear($scope.minDate.getYear()+1901);
+  };
+  $scope.toggleMin();
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
+
+  $scope.dateOptions = {
+    formatYear: 'yyyy',
+    startingDay: 1
+  };
+
+  $scope.initDate = new Date('2016-15-20');
+  $scope.formats = ['MM/dd/yyyy','dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.format = $scope.formats[0];
   /* $scope.setLastnameError = function()
   {
     if($scope.mainForm.$submitted && $scope.mainForm.lastName.$error.required && !$scope.userCanceledErrorDisplay){
